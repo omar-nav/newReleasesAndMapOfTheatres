@@ -8,12 +8,14 @@ import { DataService } from './services/data.service';
 import { TheatresNearbyService } from './services/theatres-nearby.service';
 import { HttpClientModule } from '@angular/common/http';
 import { AppErrorHandler } from './common/validators/app-error-handler';
+import { NewReleasesComponent } from './new-releases/new-releases.component';
 
 
 @NgModule({
   declarations: [
     AppComponent,
-    TheatresComponent
+    TheatresComponent,
+    NewReleasesComponent
   ],
   imports: [
     BrowserModule,
