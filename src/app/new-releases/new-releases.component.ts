@@ -21,7 +21,7 @@ export class NewReleasesComponent implements OnInit {
             // returns an array of objects
             this.newReleases = newReleasesObject;
             // parse to new movies array
-            this.newReleases = this.newReleases.movies;
+            this.newReleases = this.newReleases.results;
               console.log(this.newReleases);
           })
   }
