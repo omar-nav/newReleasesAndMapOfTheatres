@@ -37,9 +37,6 @@ export class TheatresComponent implements OnInit {
     }
   }
 
-  // showTheatreName(){
-  //   console.log("hi!");
-  // }
   constructor(private service: TheatresNearbyService) {}
     
     ngOnInit() {
@@ -78,7 +75,6 @@ export class TheatresComponent implements OnInit {
             for (let i=0; i<theatresNearby.length; i++){
               this.addMarker(latArray[i],lonArray[i],nameArray[i],addressArray[i]);
             }
-            
           })
     }
 }

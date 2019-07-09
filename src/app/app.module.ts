@@ -9,13 +9,15 @@ import { TheatresNearbyService } from './services/theatres-nearby.service';
 import { HttpClientModule } from '@angular/common/http';
 import { AppErrorHandler } from './common/validators/app-error-handler';
 import { NewReleasesComponent } from './new-releases/new-releases.component';
+import { UserComponent } from './user/user.component';
 
 
 @NgModule({
   declarations: [
     AppComponent,
     TheatresComponent,
-    NewReleasesComponent
+    NewReleasesComponent,
+    UserComponent
   ],
   imports: [
     BrowserModule,
