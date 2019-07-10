@@ -35,7 +35,7 @@ export class TheatresComponent implements OnInit {
     ],
     zoom: 11,
     // this view will change upon ip address reception
-    center: L.latLng(32.730625, -100.114043)
+    // center: L.latLng(32.730625, -100.114043)
   };
   markers: Layer[] = [];
 
