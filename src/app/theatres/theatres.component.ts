@@ -34,7 +34,7 @@ export class TheatresComponent implements OnInit {
       L.tileLayer('http://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', { maxZoom: 18, attribution: '' })
     ],
     zoom: 11,
-    // TODO change initial center to ip of user
+    // this view will change upon ip address reception
     center: L.latLng(32.730625, -100.114043)
   };
   markers: Layer[] = [];
@@ -59,7 +59,6 @@ export class TheatresComponent implements OnInit {
 	}
 
     ngOnInit() {
-
       // theatres nearby holds array of objects
       // from http response
       let theatresNearby: any;
@@ -67,9 +66,8 @@ export class TheatresComponent implements OnInit {
       let lonArray= [];
       let nameArray= [];
       let addressArray= [];
-      let latitude: number;
-      let longitude: number;
-      let panOptions: any;
+      let x: number;
+      let y: number;
         //Init the user Servies for Get The client IP Adress.
     
       let ipInfo: any;
@@ -77,8 +75,8 @@ export class TheatresComponent implements OnInit {
       this.userService.getIpAddress()
       .subscribe(ipInfoOfUser => { ipInfoOfUser = ipInfoOfUser 
         ipInfo = ipInfoOfUser;
-        let x = ipInfo.latitude;
-        let y = ipInfo.longitude;
+        x = ipInfo.latitude;
+        y = ipInfo.longitude;
         //call to change view once new
         // coordinates have been returned
         this.changeView(x,y);
