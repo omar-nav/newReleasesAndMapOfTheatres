@@ -69,7 +69,7 @@ export class TheatresComponent implements OnInit {
       let x: number;
       let y: number;
         //Init the user Servies for Get The client IP Adress.
-    
+      
       let ipInfo: any;
       // get the reference to the map
       this.userService.getIpAddress()
@@ -80,6 +80,7 @@ export class TheatresComponent implements OnInit {
         //call to change view once new
         // coordinates have been returned
         this.changeView(x,y);
+        
       });
 
  
