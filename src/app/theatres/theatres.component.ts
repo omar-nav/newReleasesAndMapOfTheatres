@@ -77,14 +77,14 @@ export class TheatresComponent implements OnInit {
         ipInfo = ipInfoOfUser;
         x = ipInfo.latitude;
         y = ipInfo.longitude;
-        //call to change view once new
+        localStorage.setItem('x', `${x}`);
+        localStorage.setItem('y', `${y}`);
+        // call change view once new
         // coordinates have been returned
         this.changeView(x,y);
-        
-      });
-
- 
-      this.theatresService.getAll()
+        // nest call to get theatres
+        // xy values are needed first
+        this.theatresService.getAll()
         .subscribe(theatres =>{ theatres =  theatres;
             // returns an array of objects
             theatresNearby = theatres;
@@ -102,6 +102,7 @@ export class TheatresComponent implements OnInit {
               this.addMarker(latArray[i],lonArray[i],nameArray[i],addressArray[i]);
             }
           })
+      });
     }
 }
 
