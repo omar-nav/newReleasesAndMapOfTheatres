@@ -1,15 +1,28 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, Inject } from '@angular/core';
 import * as L from 'leaflet';
 import { TheatresNearbyService } from '../services/theatres-nearby.service';
 import { icon, latLng, Layer, marker, tileLayer } from 'leaflet';
+import { MyUserServService } from '../services/my-user-serv.service';
+
 
 @Component({
   selector: 'app-theatres',
   templateUrl: './theatres.component.html',
-  styleUrls: ['./theatres.component.css']
+  styleUrls: ['./theatres.component.css'],
+  providers: [
+    { provide: 'TheatresNearbyService', useClass: TheatresNearbyService },
+    { provide: 'MyUserServService', useClass: MyUserServService }
+  ]
 })
 
 export class TheatresComponent implements OnInit {
+  map: L.Map;
+  
+  constructor(
+    @Inject(TheatresNearbyService) private theatresService: TheatresNearbyService,
+    @Inject(MyUserServService) private userService: MyUserServService
+    ) {}
+
   popcornIcon = L.icon({
     iconSize: [ 25, 41 ],
     iconAnchor: [ 13, 41 ],
@@ -17,10 +30,12 @@ export class TheatresComponent implements OnInit {
   });
 
   options = {
-    layers: [],
-    zoom: 10,
+    layers: [
+      L.tileLayer('http://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', { maxZoom: 18, attribution: '' })
+    ],
+    zoom: 11,
     // TODO change initial center to ip of user
-    center: L.latLng(32.730625, -97.114043)
+    center: L.latLng(32.730625, -100.114043)
   };
   markers: Layer[] = [];
 
@@ -36,29 +51,41 @@ export class TheatresComponent implements OnInit {
       'Water Color': L.tileLayer('https://stamen-tiles-{s}.a.ssl.fastly.net/watercolor/{z}/{x}/{y}.png', { maxZoom: 18, attribution: '' })
     }
   }
+	onMapReady(map: L.Map) {
+		this.map = map;
+  }
+  changeView(x: number, y: number) {
+    this.map.panTo(new L.LatLng(x,y));
+	}
 
-  constructor(private service: TheatresNearbyService) {}
-    
     ngOnInit() {
+
       // theatres nearby holds array of objects
       // from http response
       let theatresNearby: any;
-      let latArray = [];
-      let lonArray = [];
-      let nameArray = [];
-      let addressArray = [];
-     
-      this.options = {
-        layers: [
-          L.tileLayer('http://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', { maxZoom: 18, attribution: '' })
-        ],
-        zoom: 10,
-        // TODO change initial center to ip of user
-        center: L.latLng(32.730625, -97.114043)
-      };
+      let latArray= [];
+      let lonArray= [];
+      let nameArray= [];
+      let addressArray= [];
+      let latitude: number;
+      let longitude: number;
+      let panOptions: any;
+        //Init the user Servies for Get The client IP Adress.
+    
+      let ipInfo: any;
+      // get the reference to the map
+      this.userService.getIpAddress()
+      .subscribe(ipInfoOfUser => { ipInfoOfUser = ipInfoOfUser 
+        ipInfo = ipInfoOfUser;
+        let x = ipInfo.latitude;
+        let y = ipInfo.longitude;
+        //call to change view once new
+        // coordinates have been returned
+        this.changeView(x,y);
+      });
 
  
-      this.service.getAll()
+      this.theatresService.getAll()
         .subscribe(theatres =>{ theatres =  theatres;
             // returns an array of objects
             theatresNearby = theatres;
@@ -78,3 +105,4 @@ export class TheatresComponent implements OnInit {
           })
     }
 }
+

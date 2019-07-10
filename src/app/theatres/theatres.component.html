@@ -6,5 +6,6 @@
      [leafletOptions]="options"
      [leafletLayersControl]="layersControl"
      [leafletLayers]="markers"
+     (leafletMapReady)="onMapReady($event)"
      >
 </div>
